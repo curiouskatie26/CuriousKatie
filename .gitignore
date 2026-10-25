@@ -1,0 +1,7 @@
+# Local preview settings for Claude, not part of the website
+.claude/
+
+# Operating system clutter
+Thumbs.db
+desktop.ini
+.DS_Store
