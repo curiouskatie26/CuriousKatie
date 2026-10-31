@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Contact Katie | Curious Katie</title>
-  <meta name="description" content="Say hello to Katie by email to book a free 30-minute intro call. A relaxed, no-pressure conversation about how somatic coaching could support you right now.">
+  <meta name="description" content="Send Katie a short message to book a free 30-minute intro call. A relaxed, no-pressure conversation about how somatic coaching could support you right now.">
   <meta property="og:title" content="Contact Katie | Curious Katie">
-  <meta property="og:description" content="Say hello to Katie by email to book a free 30-minute intro call. A relaxed, no-pressure conversation about how somatic coaching could support you right now.">
+  <meta property="og:description" content="Send Katie a short message to book a free 30-minute intro call. A relaxed, no-pressure conversation about how somatic coaching could support you right now.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Curious Katie – Body Explorations">
   <meta name="theme-color" content="#F4F4F8">
@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,400..500,100;1,9..144,400..500,100&amp;family=Work+Sans:wght@400;500&amp;family=Leckerli+One&amp;display=swap">
   <link rel="stylesheet" href="css/styles.css">
   <script src="js/main.js"></script>
+  <script src="js/contact.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -50,15 +51,49 @@
         <div class="reading center frost fade-in">
           <span class="eyebrow">Contact</span>
           <h1 id="page-title">Let's talk</h1>
-          <p class="lead">The first step is a free 30-minute intro call. Send me an email and we'll find a time that works.</p>
+          <p class="lead">The first step is a free 30-minute intro call. Send me a note below and we'll find a time that works. Sessions are online, so you can join from anywhere.</p>
         </div>
 
         <div class="card contact-card fade-in fade-in--delay">
-          <a class="contact-email" href="mailto:kmaygroves@gmail.com?subject=Free%20intro%20call">kmaygroves@gmail.com</a>
-          <div>
-            <a class="btn" href="mailto:kmaygroves@gmail.com?subject=Free%20intro%20call">Email Katie</a>
+          <!-- CONTACT FORM: the action below is your Google Apps Script web app address. See "Your contact form" in README.md. -->
+          <form class="contact-form" id="contact-form" action="https://script.google.com/macros/s/AKfycbz_lgOq57dZVWzwJs9VBW7fRC8csBJouPYtyaI5TS0eUeQqB8F-jQQmmx-y-vuycs8imA/exec" method="post">
+            <div class="form-field">
+              <label for="cf-name">Your name</label>
+              <input id="cf-name" name="name" type="text" autocomplete="name" maxlength="200" required>
+            </div>
+            <div class="form-field">
+              <label for="cf-email">Your email</label>
+              <input id="cf-email" name="email" type="email" autocomplete="email" maxlength="254" required>
+            </div>
+            <div class="form-field">
+              <label for="cf-support">What would you like support with? <span class="form-optional">(optional)</span></label>
+              <p class="form-hint" id="cf-support-hint">A sentence or two is plenty.</p>
+              <textarea id="cf-support" name="support" rows="4" maxlength="5000" aria-describedby="cf-support-hint"></textarea>
+            </div>
+            <div class="form-field">
+              <label for="cf-times">Days and times that suit you for a call <span class="form-optional">(optional)</span></label>
+              <p class="form-hint" id="cf-times-hint">Please include your time zone.</p>
+              <textarea id="cf-times" name="times" rows="2" maxlength="1000" aria-describedby="cf-times-hint"></textarea>
+            </div>
+            <div class="form-field">
+              <label for="cf-found">How did you find me? <span class="form-optional">(optional)</span></label>
+              <input id="cf-found" name="found" type="text" maxlength="500">
+            </div>
+            <!-- Hidden from people. Spam bots fill it in, and the script ignores them. -->
+            <div class="form-trap" aria-hidden="true">
+              <label for="cf-website">Leave this empty</label>
+              <input id="cf-website" name="website" type="text" tabindex="-1" autocomplete="off">
+            </div>
+            <p class="form-privacy">Your details stay private and are only used to reply to you.</p>
+            <div class="form-submit">
+              <button class="btn" type="submit">Send</button>
+            </div>
+            <p class="form-status" role="alert"></p>
+          </form>
+          <div class="contact-thanks" id="contact-thanks" tabindex="-1" hidden>
+            <p class="contact-thanks-title">Thank you</p>
+            <p>Your message is on its way. I'll be in touch within a couple of days.</p>
           </div>
-          <p class="contact-help">It helps to share a little about what you're struggling with and a few times that suit you. Sessions are online, so you can join from anywhere.</p>
         </div>
       </div>
     </section>

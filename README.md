@@ -86,7 +86,7 @@ Your photos appear as gently fixed ("parallax") backgrounds behind some sections
 
 1. Create a free account at [github.com](https://github.com) if you don't have one.
 2. Click **+** (top right) → **New repository**. Give it a name, such as `curious-katie`, set it to **Public**, and click **Create repository**.
-3. On the new repository page, click **uploading an existing file**. Drag in **everything** from this folder: all the `.html` files, the `css`, `js` and `images` folders, `README.md`, and the `.nojekyll` file. Then click **Commit changes**.
+3. On the new repository page, click **uploading an existing file**. Drag in **everything** from this folder: all the `.html` files, the `css`, `js`, `images` and `google-apps-script` folders, `README.md`, and the `.nojekyll` file. Then click **Commit changes**.
    - `.nojekyll` is a hidden, empty file. If you can't see it, turn on "show hidden files" in your file browser. It tells GitHub to serve your files exactly as they are.
 4. Go to **Settings** → **Pages**.
 5. Under **Source**, choose **Deploy from a branch**. Choose branch **`main`** and folder **`/ (root)`**, then click **Save**.
@@ -109,6 +109,39 @@ Your photos appear as gently fixed ("parallax") backgrounds behind some sections
 
 All the links in the site are relative, so nothing else needs to change when you move to your own domain.
 
+## 7. Your contact form
+
+The Contact page has a form instead of an email button. When someone sends it:
+
+- their message is saved as a new row in a Google Sheet in your Drive,
+- you get an email with their details (just hit Reply to answer them), and
+- they get a short thank-you email from your Gmail saying you'll be in touch within a couple of days.
+
+The form needs a small Google script to do this. The script is in `google-apps-script/contact-form.gs`. It runs on Google, not on your website, so you set it up once, like this:
+
+1. Sign in to Google as kmaygroves@gmail.com and go to [sheets.new](https://sheets.new) to make a new Google Sheet. Name it something like **Curious Katie messages**.
+2. In the Sheet, click **Extensions** → **Apps Script**. A code editor opens in a new tab.
+3. Delete the few lines already in the editor. Open `google-apps-script/contact-form.gs` from this folder in a text editor, copy everything, and paste it in. Click the **Save** icon.
+4. In the toolbar, make sure the dropdown next to **Run** says **setUp**, then click **Run**.
+   - Google asks for permission. Click **Review permissions** and choose your account.
+   - You'll see "Google hasn't verified this app". That's normal for a script you wrote yourself. Click **Advanced**, then **Go to … (unsafe)**, then **Allow**.
+   - Back in your Sheet, a new **Messages** tab appears with column headings.
+5. Click **Deploy** (top right) → **New deployment**. Click the gear icon next to "Select type" and choose **Web app**. Set:
+   - **Execute as:** Me
+   - **Who has access:** Anyone
+
+   Click **Deploy**, then copy the **Web app URL**. It starts with `https://script.google.com/macros/s/` and ends in `/exec`.
+6. Open `contact.html`, search for `PASTE_YOUR_WEB_APP_URL_HERE`, and replace those words with the address you copied. Keep the quote marks around it. Save, and upload the file to GitHub as usual.
+7. Test it: send yourself a message from the live Contact page. You should see the thank-you on the page, a new row in your Sheet, an email with the details, and the thank-you email.
+
+**Changing the thank-you email or where messages go:** the wording and your email address are at the top of the script, under "Things you might want to change". Edit them in the Apps Script editor, then click **Deploy** → **Manage deployments**, click the pencil icon, set **Version** to **New version**, and click **Deploy**. This keeps the same web address, so `contact.html` doesn't need to change. Keep `google-apps-script/contact-form.gs` in this folder up to date too, so you have a copy.
+
+Good to know:
+
+- Gmail lets a script like this send about 100 emails a day, which covers around 50 messages a day.
+- A hidden box on the form catches most spam bots. To stop the form being used to flood someone's inbox, each email address gets at most one thank-you email every 6 hours. Their messages are still saved and sent to you.
+- If the form ever stops working, visitors see a short note asking them to email you instead.
+
 ---
 
 ## What's still to fill in
@@ -120,10 +153,11 @@ All the links in the site are relative, so nothing else needs to change when you
 | Photo of Katie | `images/katie.jpg` (About page) | Added (a sharper original would be even better) |
 | Expanded "What is somatic coaching?" answer | FAQ page | Draft answer in place |
 | Custom domain | GitHub Pages settings + `CNAME` | Not yet purchased |
+| Contact form connection | Section 7 above, then `contact.html` | Connected (send a test message once the site is live) |
 
 ## For the technically curious
 
-- Plain HTML5, one stylesheet (`css/styles.css`), a small script for the mobile menu (`js/main.js`), and the home page's animated header (`js/meadow.js`).
+- Plain HTML5, one stylesheet (`css/styles.css`), a small script for the mobile menu (`js/main.js`), the home page's animated header (`js/meadow.js`), and the Contact form's sending script (`js/contact.js`), which posts to the Google Apps Script web app in `google-apps-script/contact-form.gs`.
 - Colors and fonts are set as variables at the top of `styles.css` (look for `:root`). The small gold sprig above "I'll meet you right where you are" on the About page is `images/sprig.svg`.
 - **The home page header** is the "Ink meadow": an ink tree, a soft lilac sun and a swaying meadow with little purple flowers, drawn live by `js/meadow.js` using the three.js library (loaded from cdn.jsdelivr.net). Its colours are at the top of `js/meadow.js`.
 - **The Services page banner** is a half-height view of the same meadow from a different spot: the tree on the left and further away, under a low, rosy evening sun in a calmer breeze. Each banner's view is set in its `data-params` in the HTML: `side` (`"left"` or `"right"`), `treeScale` (smaller = further away), `sunX`/`sunY` (where the sun sits), `sun` (its colour), `wind` (breeze strength), `seed` (a different number grows a different tree and meadow) and `density` (how many grasses).

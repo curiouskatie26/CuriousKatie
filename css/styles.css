@@ -13,6 +13,7 @@
   --color-accent-dark: #5C618A; /* buttons, links, small headings */
   --color-text: #3E415C;        /* body and heading text */
   --color-text-muted: #62668A;  /* captions, secondary text */
+  --color-error: #9A3F55;       /* form problems: a soft, dark rose */
 
   /* Light text on #757AA3 is only ~4.1:1 (below WCAG AA), so buttons
      and text links use the darker accent, which is ~6:1. */
@@ -1330,22 +1331,123 @@ ul {
   }
 }
 
-.contact-email {
-  display: inline-block;
-  margin-bottom: 1.5rem;
-  font-family: var(--font-heading);
-  font-size: clamp(1.35rem, 5.4vw, 2rem);
-  font-variation-settings: "SOFT" 100;
-  line-height: 1.3;
-  overflow-wrap: anywhere;
+.contact-form {
+  text-align: left;
 }
 
-.contact-help {
-  max-width: 46ch;
-  margin: 1.75rem auto 0;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--color-soft);
+.form-field {
+  margin-bottom: 1.5rem;
+}
+
+.form-field label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.form-optional {
+  font-size: 0.9em;
+  font-weight: 400;
+  color: var(--color-text-muted);
+}
+
+.form-hint {
+  margin: -0.2rem 0 0.5rem;
+  font-size: 0.92rem;
+  color: var(--color-text-muted);
+}
+
+/* The border uses the mid accent so the boxes stay visible (3:1) on white */
+.contact-form input,
+.contact-form textarea {
+  display: block;
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid var(--color-accent);
+  border-radius: 14px;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 1rem; /* 16px stops phones zooming in on tap */
+  line-height: 1.5;
+  transition: border-color var(--transition), background-color var(--transition);
+}
+
+.contact-form textarea {
+  min-height: 3.2em;
+  resize: vertical;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: var(--color-accent-dark);
+  background: var(--color-surface);
+}
+
+.contact-form input:user-invalid {
+  border-color: var(--color-error);
+}
+
+/* Off-screen rather than display: none, which some bots skip */
+.form-trap {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.form-privacy {
+  margin: 2rem 0 1.25rem;
+  font-size: 0.92rem;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.form-submit {
+  text-align: center;
+}
+
+.form-submit .btn {
+  min-width: 10rem;
+}
+
+.form-submit .btn:disabled {
+  opacity: 0.7;
+  cursor: progress;
+}
+
+.form-status {
+  margin: 1.25rem 0 0;
+  color: var(--color-error);
   font-size: 0.95rem;
+  text-align: center;
+}
+
+/* Collapsed but still in the page, so screen readers announce it when it fills */
+.form-status:empty {
+  margin: 0;
+}
+
+.contact-thanks {
+  padding: 1rem 0;
+}
+
+.contact-thanks:focus {
+  outline: none;
+}
+
+.contact-thanks-title {
+  margin-bottom: 0.5rem;
+  font-family: var(--font-heading);
+  font-size: clamp(1.6rem, 5.4vw, 2.1rem);
+  font-variation-settings: "SOFT" 100;
+  line-height: 1.3;
+}
+
+.contact-thanks p:last-child {
+  margin-bottom: 0;
   color: var(--color-text-muted);
 }
 
