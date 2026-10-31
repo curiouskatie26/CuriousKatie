@@ -138,6 +138,8 @@ The form needs a small Google script to do this. The script is in `google-apps-s
 
 Good to know:
 
+- The script can only open the Sheet it lives in, not your other spreadsheets or Drive files. It can send email as you, but it can't read your inbox. Anyone you share the Sheet with as an editor can also edit the script, so share it view-only if you share it at all.
+- To see or remove the script's access, go to [myaccount.google.com/connections](https://myaccount.google.com/connections). Removing it stops the form working until you run `setUp` again.
 - Gmail lets a script like this send about 100 emails a day, which covers around 50 messages a day.
 - A hidden box on the form catches most spam bots. To stop the form being used to flood someone's inbox, each email address gets at most one thank-you email every 6 hours. Their messages are still saved and sent to you.
 - If the form ever stops working, visitors see a short note asking them to email you instead.

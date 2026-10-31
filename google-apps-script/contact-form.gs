@@ -6,6 +6,11 @@
    Setup steps are in README.md under "Your contact form".
    ========================================================================== */
 
+/**
+ * Asks Google for access to this one Sheet only, not all your spreadsheets.
+ * @OnlyCurrentDoc
+ */
+
 // ---------- Things you might want to change ----------
 
 // Where new-message emails are sent
@@ -54,7 +59,6 @@ function setUp() {
     sheet.getRange(1, 1, 1, HEADERS.length).setFontWeight("bold");
     sheet.setFrozenRows(1);
   }
-  PropertiesService.getScriptProperties().setProperty("SHEET_ID", spreadsheet.getId());
   Logger.log("All set. Messages will be saved to the \"" + SHEET_NAME + "\" tab.");
 }
 
@@ -102,9 +106,12 @@ function handleMessage(params) {
 }
 
 function saveToSheet(message) {
-  var sheetId = PropertiesService.getScriptProperties().getProperty("SHEET_ID");
-  if (!sheetId) throw new Error("Run setUp() once before deploying.");
-  var sheet = SpreadsheetApp.openById(sheetId).getSheetByName(SHEET_NAME);
+  // The Sheet this script lives in. It's only found when the script was
+  // added from the Sheet's Extensions menu.
+  var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  if (!spreadsheet) throw new Error("Add this script from your Sheet's Extensions > Apps Script menu.");
+  var sheet = spreadsheet.getSheetByName(SHEET_NAME);
+  if (!sheet) throw new Error("Run setUp() once before deploying.");
 
   // One message at a time, so two arriving together don't overwrite each other
   var lock = LockService.getScriptLock();
